@@ -65,7 +65,7 @@ def gradient_descent(gamma, x, y, ep=0.0001, max_iter=10000):
                 w5 = w5_new
 
                 # mean squared
-                e = sum( [ (w0 + w1 + w2 + w3 + w4 + w5 * x[i] - y[i]) ** 2 for i in range(m)] ) 
+                e = 1.0 / m * sum([(w0 + w1 + w2 + w3 + w4 + w5 * x[i] - y[i]) ** 2 for i in range(m)]) 
                 print('abs{} <= ep:{},'.format(abs(J-e), ep))
                 
                 if abs(J-e) <= ep:
