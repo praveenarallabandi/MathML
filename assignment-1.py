@@ -41,14 +41,14 @@ def gradient_descent(gamma, x, y, ep=0.0001, max_iter=10000):
         w4 = np.random.random(x.shape[1])
         w5 = np.random.random(x.shape[1])
         print('w0: {} w1: {}'.format(w0, w1))
-        # total error, J(theta)(w-good)
+        # total error, J
         J = sum([(w0 + w1 + w2 + w3+ w4 + w5 * x[i] - y[i]) ** 2 for i in range(m)])
         print('J: {}'.format(J))
         # Iterate Loop
         while not converged:
                 grad0, grad1, grad2, grad3, grad4, grad5 = calculateGradient(m, x, y, w0, w1, w2, w3, w4, w5)
 
-                # update the theta_temp
+                # update
                 w0_new = calculateNewDerivate(w0, grad0, gamma)
                 w1_new = calculateNewDerivate(w1, grad1, gamma)
                 w2_new = calculateNewDerivate(w2, grad2, gamma) 
