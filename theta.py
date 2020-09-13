@@ -9,13 +9,14 @@ def gradient_descent(alpha, x, y, ep=0.0001, max_iter=10000):
     converged = False
     iter = 0
     m = x.shape[0] # number of samples
-
+    print('value m : {}, x.shape[0]: {}, x.shape[1]: {}'.format(m, x.shape[0], x.shape[1]))
     # initial theta
     t0 = np.random.random(x.shape[1])
     t1 = np.random.random(x.shape[1])
-
+    print('t0: {} t1: {}'.format(t0, t1))
     # total error, J(theta)
     J = sum([(t0 + t1 * x[i] - y[i]) ** 2 for i in range(m)])
+    print('J: {}'.format(J))
 
     # Iterate Loop
     while not converged:
@@ -23,6 +24,7 @@ def gradient_descent(alpha, x, y, ep=0.0001, max_iter=10000):
         grad0 = 1.0 / m * sum([(t0 + t1 * x[i] - y[i]) for i in range(m)]) 
         grad1 = 1.0 / m * sum([(t0 + t1 * x[i] - y[i]) * x[i] for i in range(m)])
 
+        # print('grad0 = {} grad1 = {}'.format(grad0, grad1))
         # update the theta_temp
         temp0 = t0 - alpha * grad0
         temp1 = t1 - alpha * grad1
@@ -33,7 +35,7 @@ def gradient_descent(alpha, x, y, ep=0.0001, max_iter=10000):
 
         # mean squared error
         e = sum( [ (t0 + t1*x[i] - y[i])**2 for i in range(m)] ) 
-
+        #print('mean :ep:{}, abs{}'.format(ep, abs(J-e)))
         if abs(J-e) <= ep:
             print ('Converged, iterations: ', iter, '!!!')
             converged = True
@@ -48,9 +50,11 @@ def gradient_descent(alpha, x, y, ep=0.0001, max_iter=10000):
     return t0,t1
 
 if __name__ == '__main__':
-    x, y = make_regression(n_samples=100, n_features=1, n_informative=1, random_state=0, noise=35) 
+    x, y = make_regression(n_samples=9, n_features=1, n_informative=1, random_state=0, noise=35) 
+    
     # print ('x.shape = %s y.shape = %s') %(x.shape, y.shape)
     print('x.shape = {} y.shape = {}'.format(x.shape, y.shape))
+    print('x = {}, type(x): {} '.format(x, type(x)))
     
     alpha = 0.01 # learning rate
     ep = 0.01 # convergence criteria
