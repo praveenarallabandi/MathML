@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 def calculateGradient(m, x, y, w0, w1, w2, w3, w4, w5):
         dw_0 = 1.0 / m * sum([(2 * (w0 - y[i])) for i in range(m)]) 
         dw_1 = 1.0 / m * sum([(2 * ((w0 + w1 * x[i]) - y[i]) * x[i]) for i in range(m)])
-        dw_2 = 1.0 / m * sum([(2 * ((w0 + w1 * x[i] + w2 * x[i] ** 2) - y[i]) * (x[i] ** 2)) for i in range(m)])
-        dw_3 = 1.0 / m * sum([(2 * ((w0 + w1 * x[i]+ w2 * x[i] ** 2  + w3 * x[i] ** 3) - y[i]) * (x[i] ** 3)) for i in range(m)])
-        dw_4 = 1.0 / m * sum([(2 * ((w0 + w1 * x[i] + w2 * x[i] ** 2 + w3 * x[i] ** 3 + w4 * x[i] ** 4) - y[i]) * (x[i] ** 4)) for i in range(m)])
-        dw_5 = 1.0 / m * sum([(2 * ((w0 + w1 * x[i] + w2 * x[i] ** 2 + w3 * x[i] ** 3 + w4 * x[i] ** 4 + w5 * x[i] ** 5) - y[i]) * (x[i] ** 5)) for i in range(m)])
+        dw_2 = 1.0 / m * sum([(2 * ((w0 + w1 * x[i] + w2 * np.power(x[i], 2)) - y[i]) * (np.power(x[i], 2))) for i in range(m)])
+        dw_3 = 1.0 / m * sum([(2 * ((w0 + w1 * x[i]+ w2 * np.power(x[i], 2)  + w3 * np.power(x[i], 3)) - y[i]) * (np.power(x[i], 3))) for i in range(m)])
+        dw_4 = 1.0 / m * sum([(2 * ((w0 + w1 * x[i] + w2 * np.power(x[i], 2) + w3 * np.power(x[i], 3) + w4 * np.power(x[i], 4)) - y[i]) * (np.power(x[i], 4))) for i in range(m)])
+        dw_5 = 1.0 / m * sum([(2 * ((w0 + w1 * x[i] + w2 * np.power(x[i], 2) + w3 * np.power(x[i], 3) + w4 * np.power(x[i], 4) + w5 * np.power(x[i], 5)) - y[i]) * (np.power(x[i], 5))) for i in range(m)])
         # print('calculateGradient Result : dw_0 : {}, dw_1: {}, dw_2: {}. dw_3: {}, dw_4: {}. dw_5: {}'.format(dw_0, dw_1, dw_2, dw_3, dw_4, dw_5))
         return dw_0,dw_1,dw_2,dw_3,dw_4,dw_5
 
@@ -16,16 +16,16 @@ def calculateNewDerivate(w, grad, gamma):
         w_new = w - (gamma * grad)
         return w_new
 
-def summationPlotFunction(x, w0, w1, w2, w3, w4, w5):
+def summationPlotFunction(x, w1, w2, w3, w4, w5):
         m = x.shape[0]
-        result0 = 1.0 / m * w0
-        result1 = 1.0 / m * sum([(w0 + w1 * x[i]) for i in range(m)])
-        result2 = 1.0 / m * sum([(w0 + w1 * x[i] + w2 * np.power(x[i], 2)) for i in range(m)])
-        result3 = 1.0 / m * sum([(w0 + w1 * x[i] + w2 * np.power(x[i], 2) + w3 * np.power(x[i], 3)) for i in range(m)])
-        result4 = 1.0 / m * sum([(w0 + w1 * x[i] + w2 * np.power(x[i], 2) + w3 * np.power(x[i], 3) + w4 * np.power(x[i], 4)) for i in range(m)])
-        result5 = 1.0 / m * sum([(w0 + w1 * x[i] + w2 * np.power(x[i], 2) + w3 * np.power(x[i], 3) + w4 * np.power(x[i], 4) + w5 * np.power(x[i], 5)) for i in range(m)])
-        print('result0 = {} result1 = {} result2 = {} result3 = {} result4 = {} result5 = {}'.format(result0, result1, result2, result3, result4, result5))
-        return np.array( [result0, result1, result2, result3, result4, result5])
+        result1 = 1.0 / m * w1
+        result2 = 1.0 / m * sum([(w1 + w2 * x[i]) for i in range(m)])
+        result3 = 1.0 / m * sum([(w1 + w2 * x[i] + w3 * np.power(x[i], 2)) for i in range(m)])
+        result4 = 1.0 / m * sum([(w1 + w2 * x[i] + w3 * np.power(x[i], 2) + w4 * np.power(x[i], 3)) for i in range(m)])
+        result5 = 1.0 / m * sum([(w1 + w2 * x[i] + w3 * np.power(x[i], 2) + w4 * np.power(x[i], 3) + w5 * np.power(x[i], 4)) for i in range(m)])
+        # result5 = 1.0 / m * sum([(w0 + w1 * x[i] + w2 * np.power(x[i], 2) + w3 * np.power(x[i], 3) + w4 * np.power(x[i], 4) + w5 * np.power(x[i], 5)) for i in range(m)])
+        print('result1 = {} result2 = {} result3 = {} result4 = {} result5 = {}'.format(result1, result2, result3, result4, result5))
+        return np.array([result1, result2, result3, result4, result5])
 
 def gradient_descent(gamma, x, y, ep = 0.01, max_iter = 10000):
         converged = False
@@ -96,18 +96,12 @@ if __name__ == '__main__':
 
         # call gredient decent
         w_good0, w_good1, w_good2, w_good3, w_good4, w_good5 = gradient_descent(gamma, x, y, ep, max_iter = 1000)
-        print('w_good0 = {} w_good1 = {} w_good2 = {} w_good3 = {} w_good4 = {} w_good5 = {}'.format(w_good0, w_good1, w_good2, w_good3, w_good4, w_good5))
+        print('w_good0 = {} w_good1 = {} w_good2 = {} w_good3 = {} w_good4 = {}'.format(w_good0, w_good1, w_good2, w_good3, w_good4))
 
         # plot
-
-        """ m = x.shape[0]
-        for i in range(m):
-                y_predict = w_good0 + w_good1 * x[i] + w_good2 * x[i] ** 2 + w_good3 * x[i] ** 3+ w_good4 * x[i] ** 4+ w_good5 * x[i] ** 5
- """
-        resultPlotFunctionArray = summationPlotFunction(x, w_good0, w_good1, w_good2, w_good3, w_good4, w_good5)
-        w_good_plot_array = np.array([w_good0, w_good1, w_good2, w_good3, w_good4, w_good5])
+        resultPlotFunctionArray = summationPlotFunction(x, w_good0, w_good1, w_good2, w_good3, w_good4)
+        w_good_plot_array = np.array([w_good0, w_good1, w_good2, w_good3, w_good4])
         plt.plot(x,y,'ro') # red training samples
         plt.plot(w_good_plot_array,resultPlotFunctionArray,'bo') # blue color functionplot
-        #plt.plot(x,y_predict,'k-')
         plt.show()
         print("Done!")
