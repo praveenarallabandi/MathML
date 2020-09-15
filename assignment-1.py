@@ -31,7 +31,6 @@ def gradient_descent(gamma, x, y, ep = 0.01, max_iter = 10000):
         converged = False
         iterations = 0
         m = x.shape[0] # number of samples
-        # print('value m : {}, x.shape[0]: {}, x.shape[1]: {}'.format(m, x.shape[0], x.shape[1]))
         # initial w_n values
         w0 = np.random.rand(x.shape[1])
         w1 = np.random.rand(x.shape[1])
