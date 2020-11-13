@@ -7,9 +7,6 @@ import matplotlib.pyplot as plt
 mnist = keras.datasets.mnist
 (train_images_tf, train_labels_tf), (test_images_tf, test_labels_tf) = mnist.load_data()
 #TensorFlow - Loading the Data
-def imshowTensorFlow(img):
- plt.imshow(img)
-imshowTensorFlow(train_images_tf[0])
 
 print(train_labels_tf[0])
 #TensorFlow - Building the Model
@@ -34,7 +31,7 @@ train_images = (train_images_tf / 255.0).reshape(train_images_tf.shape[0], 28, 2
 test_images = (test_images_tf / 255.0).reshape(test_images_tf.shape[0], 28, 28 ,1)
 train_labels_tensorflow=keras.utils.to_categorical(train_labels_tf)
 test_labels_tensorflow=keras.utils.to_categorical(test_labels_tf)
-modeltf.fit(train_images, train_labels_tensorflow, epochs=5, batch_size=32)
+history = modeltf.fit(train_images, train_labels_tensorflow, epochs=5, batch_size=32)
 
 #TensorFlow - Comparing the Results
 predictions = modeltf.predict(test_images)
@@ -44,3 +41,8 @@ for i, pred in enumerate(predictions):
     correct += 1
 print('Test Accuracy of the model on the {} test images: {}% with TensorFlow'.format(test_images_tf.shape[0],
                                                                      100 * correct/test_images_tf.shape[0]))
+print(history.history['loss'])
+x = history.history['loss']
+y = np.array([1, 2, 3, 4, 5])
+plt.plot(x, y, 'o', color='blue')
+plt.show()                                                                     

@@ -4,26 +4,31 @@ import torchvision
 import torchvision.transforms
 import numpy as np 
 import matplotlib.pyplot as plt
+import torchvision.transforms as transforms
 num_epochs = 5
 num_classes = 10
 batch_size = 50
 learning_rate = 0.001
 
-transforms = torchvision.transforms.Compose([torchvision.transforms.ToTensor()])
+# 1.Loading and Normalizing MNIST dataset
+transform = transforms.Compose(
+    [transforms.ToTensor(),
+     transforms.Normalize((0.5,), (0.5,))])
+
 train_dataset = torchvision.datasets.MNIST(root='./data/',
                                              train=True, 
-                                             transform=transforms,
+                                             transform=transform,
                                              download=True)
 test_dataset= torchvision.datasets.MNIST(root='.data/',
                                              train=False, 
-                                             transform=transforms,
+                                             transform=transform,
                                              download=True)
 
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
-                                           batch_size=32, 
+                                           batch_size=500, 
                                            shuffle=False)
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
-                                           batch_size=32, 
+                                           batch_size=500, 
                                            shuffle=False)
                                            
 data_iter = iter(train_loader)
@@ -104,15 +109,5 @@ for images, labels in test_loader:
     correct += (predicted == labels).sum()
 print('Test Accuracy of the model on the {} test images: {}% with PyTorch'.format( total, 100 * correct / total ))
 
-#print(lossPlotX)
-#print(epochPlotY)
-plt.plot(lossPlotX, epochPlotY, 'o', color='red')
+plt.plot(lossPlotX, epochPlotY, 'o', color='blue')
 plt.show()
-""" fig = plt.figure(figsize=(20, 10))
-plt.plot(np.arange(1, num_epochs + 1), train_loss, label="Train loss")
-plt.plot(np.arange(1, num_epochs + 1), val_loss, label="Validation loss")
-plt.xlabel('Loss')
-plt.ylabel('Epochs')
-plt.title("Loss Plots")
-plt.legend(loc='upper right')
-plt.show() """
