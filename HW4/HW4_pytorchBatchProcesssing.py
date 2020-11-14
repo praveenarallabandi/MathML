@@ -36,33 +36,26 @@ images, label = data_iter.next()
 
 print(label[0])
 
-#PyTorch - Building the Model
-class ConvNet(nn.Module):
-    def __init__(self, num_of_class):
-        super(ConvNet, self).__init__()
-        self.cnn_model = nn.Sequential(
-            nn.Conv2d(1,6, kernel_size=5, stride=1, padding=2),
+class MyNetBN(nn.Module):
+    def __init__(self): 
+        super(MyNetBN, self).__init__()
+        self.classifier = nn.Sequential(
+            nn.Linear(784, 48),
+            nn.BatchNorm1d(48),
             nn.ReLU(),
-            nn.AvgPool2d(kernel_size=2, stride=2),nn.ReLU(inplace=True), nn.BatchNorm2d(10),
-            nn.Conv2d(6, 16, kernel_size=5, stride=1, padding=0),
+            nn.Linear(48, 24),
+            nn.BatchNorm1d(24),
             nn.ReLU(),
-            nn.AvgPool2d(kernel_size=2, stride=2), nn.ReLU(inplace=True), nn.BatchNorm2d(20))
-        self.fc_model = nn.Sequential(
-            nn.Linear(400, 120),
-            nn.ReLU(),
-            nn.Linear(120, 84),
-            nn.ReLU(),
+            nn.Linear(24, 10)
         )
-        self.classifier = nn.Linear(84, 10)
-
+             
     def forward(self, x):
-        x = self.cnn_model(x)
-        x = x.view(-1, 16 * 5 * 5)
-        x = self.fc_model(x)
+        x = x.view(x.size(0), -1)
         x = self.classifier(x)
-        return x 
-    #PyTorch - Visualizing the Model
-cnn = ConvNet(10)
+        return x
+
+cnn = MyNetBN()
+print(cnn)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(cnn.parameters()) 
 
@@ -94,9 +87,10 @@ for epoch in range(5):
         # add new value to the main loss
         loss += loss.item()
         number_of_sub_epoch += 1
-        lossPlotX.append(loss)
-        epochPlotY.append(epoch)
-    print("Result - Epoch {}: Loss: {}".format(epoch, loss / number_of_sub_epoch))
+    finalLoss = loss / number_of_sub_epoch
+    lossPlotX.append(finalLoss.detach().numpy())
+    epochPlotY.append(epoch)    
+    print("Result - Epoch {}: Loss: {}".format(epoch, finalLoss))
     #PyTorch - Comparing the Results
 correct = 0
 total = 0
@@ -108,5 +102,10 @@ for images, labels in test_loader:
     correct += (predicted == labels).sum()
 print('Test Accuracy of the model on the {} test images: {}% with PyTorch'.format( total, 100 * correct / total ))
 
-plt.plot(lossPlotX, epochPlotY, 'o', color='blue')
+""" plt.plot(lossPlotX, epochPlotY, 'o', color='blue')
+plt.show() """
+print(lossPlotX)
+print(epochPlotY)
+plt.scatter(lossPlotX, epochPlotY)
+""" plt.scatter(X_test.data.numpy(), Y_test.data.numpy(), c='yellow', alpha=0.5, label='test') """
 plt.show()
