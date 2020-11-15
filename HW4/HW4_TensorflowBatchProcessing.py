@@ -20,6 +20,7 @@ modeltf = keras.Sequential([
     keras.layers.Dense(120, activation=tf.nn.relu),
     keras.layers.Dense(84, activation=tf.nn.relu),
     keras.layers.Dense(10, activation=tf.nn.softmax),
+    # Batch Normalization - TF v2.3
     keras.layers.BatchNormalization()
 ])
 #TensorFlow - Visualizing the Model
@@ -47,5 +48,5 @@ print(history)
 x = history.history['loss']
 y = np.array([1, 2, 3, 4, 5])
 #plt.plot(x, y, 'o', color='blue')
-plt.scatter(x, y)
+plt.scatter(x, y, label='loss/epoch')
 plt.show()                                                                     

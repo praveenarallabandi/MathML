@@ -32,9 +32,6 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
                                            shuffle=False)
                                            
 data_iter = iter(train_loader)
-''' mean = data[0].mean()
-std = data[0].std()
-mean, std '''
 images, label = data_iter.next()
 
 print(label[0])
