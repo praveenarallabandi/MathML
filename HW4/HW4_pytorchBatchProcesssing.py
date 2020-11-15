@@ -32,6 +32,9 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
                                            shuffle=False)
                                            
 data_iter = iter(train_loader)
+''' mean = data[0].mean()
+std = data[0].std()
+mean, std '''
 images, label = data_iter.next()
 
 print(label[0])
@@ -102,8 +105,6 @@ for images, labels in test_loader:
     correct += (predicted == labels).sum()
 print('Test Accuracy of the model on the {} test images: {}% with PyTorch'.format( total, 100 * correct / total ))
 
-""" plt.plot(lossPlotX, epochPlotY, 'o', color='blue')
-plt.show() """
 print(lossPlotX)
 print(epochPlotY)
 plt.scatter(lossPlotX, epochPlotY)
