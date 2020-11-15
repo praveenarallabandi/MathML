@@ -14,14 +14,16 @@ print(train_labels_tf[0])
 modeltf = keras.Sequential([
     keras.layers.Conv2D(input_shape=(28,28,1), filters=6, kernel_size=5, strides=1, padding="same", activation=tf.nn.relu),
     keras.layers.AveragePooling2D(pool_size=2, strides=2),
+    # Batch Normalization - TF v2.3
+    keras.layers.BatchNormalization(),
     keras.layers.Conv2D(16, kernel_size=5, strides=1, padding="same", activation=tf.nn.relu),
     keras.layers.AveragePooling2D(pool_size=2, strides=2),
+    # Batch Normalization - TF v2.3
+    keras.layers.BatchNormalization(),
     keras.layers.Flatten(),
     keras.layers.Dense(120, activation=tf.nn.relu),
     keras.layers.Dense(84, activation=tf.nn.relu),
-    keras.layers.Dense(10, activation=tf.nn.softmax),
-    # Batch Normalization - TF v2.3
-    keras.layers.BatchNormalization()
+    keras.layers.Dense(10, activation=tf.nn.softmax)
 ])
 #TensorFlow - Visualizing the Model
 modeltf.compile(loss=keras.losses.categorical_crossentropy,
