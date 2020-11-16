@@ -4,6 +4,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import torch.nn.functional as F
 from keras.datasets import mnist
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
@@ -83,7 +84,7 @@ y = tf.placeholder(dtype = tf.float32,name = 'y')
 
 ## set up new variables that are functions/transformations of the above
 
-predictions = tf.matmul(x,w_best) + b_best 
+predictions = tf.nn.softmax(tf.matmul(x,w_best) + b_best)
 
 #loss (square error of prediction) for each sample (a vector)
 
