@@ -61,35 +61,29 @@ print(x_train.shape[0])
 print(x_train.shape[1])
 #### START OF LEARNING
 
-#number of epchos. 1 epoch is when all training data is seen
 n_epochs = 100
 
-#number of samples to present as micro-batch
-#could be just n_train
-#or if dataset is large, could be a small chunk of if
 batch_size = 128
 
-# w is the feature weights, a [fCnt x 1] vector
 w_best = tf.Variable(tf.zeros([784, 10]))
 
-# b is the bias, so just a single number
 b_best = tf.Variable(tf.zeros([10]))
 
-# x will be our [#samples x #features] matrix of all training samples
 x = tf.placeholder(tf.float32, [None, 784])
 
-# y will be our vector of dependent variable for all training samples
 y = tf.placeholder(dtype = tf.float32,name = 'y')
 
-## set up new variables that are functions/transformations of the above
-
-model = tf.nn.softmax(tf.matmul(x,w_best) + b_best)
+logits = tf.matmul(x,w_best) + b_best
+model = tf.nn.softmax(logits)
 cross_entropy = -tf.reduce_mean(y * tf.log(model))
 
 # optimizer
 train_step = tf.train.GradientDescentOptimizer(0.001).minimize(cross_entropy)
 
-#loss (square error of prediction) for each sample (a vector)
+
+
+# TRIED WITH BELOW LOSS BUT WAS GETTING AND ERROR SO USING THE BELOW LOSS CALCULATION
+# loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_train, logits=logits))
 loss = tf.square(y - model)
 
 #risk over all samples (a number)
