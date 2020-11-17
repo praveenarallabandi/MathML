@@ -63,8 +63,8 @@ batch_size=128
 ##define and initialize shared variables
 ## (the variable persist, they encode the state of the classifier throughout learning via gradient descent)
 # w is the feature weights, a [fCnt x 1] vector
-initialW=np.random.rand(fCnt,1).astype(dtype='float32')
-w = tf.Variable(initialW,name="w")
+initialW = np.random.rand(fCnt,1).astype(dtype='float32')
+w = tf.Variable(initialW, name="w")
 
 # b is the bias, so just a single number
 initialB=0.0
