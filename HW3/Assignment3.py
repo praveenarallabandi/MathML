@@ -30,8 +30,8 @@ x_test, y_test = x_test[test_filter_class], y_test[test_filter_class]
 x_train=x_train.astype(dtype='float32')
 x_test=x_test.astype(dtype='float32')
 y_train=y_train.astype(dtype='float32')
-y_train=y_train.reshape(y_train.shape[0],1)
 y_test=y_test.astype(dtype='float32')
+y_train=y_train.reshape(y_train.shape[0],1)
 y_test=y_test.reshape(y_test.shape[0],1)
 
 x_train = x_train.reshape(x_train.shape[0],784) / 255
@@ -57,7 +57,8 @@ for j in range(y_test.shape[0]):
 
 n_train = x_train.shape[0]
 fCnt = x_train.shape[1]
-
+print(x_train.shape[0])
+print(x_train.shape[1])
 #### START OF LEARNING
 
 #number of epchos. 1 epoch is when all training data is seen
@@ -69,15 +70,9 @@ n_epochs = 100
 batch_size = 128
 
 # w is the feature weights, a [fCnt x 1] vector
-
-""" initialW = np.random.rand(fCnt,1).astype(dtype = 'float32')
-w_best = tf.Variable(initialW, name = "w") """
 w_best = tf.Variable(tf.zeros([784, 10]))
 
 # b is the bias, so just a single number
-
-""" initialB = 0.0
-b_best = tf.Variable(initialB,name = "b") """
 b_best = tf.Variable(tf.zeros([10]))
 
 # x will be our [#samples x #features] matrix of all training samples
@@ -85,7 +80,6 @@ x = tf.placeholder(tf.float32, [None, 784])
 
 # y will be our vector of dependent variable for all training samples
 y = tf.placeholder(dtype = tf.float32,name = 'y')
-""" y = tf.placeholder(tf.float32, [None, 10]) """
 
 ## set up new variables that are functions/transformations of the above
 
@@ -93,7 +87,7 @@ model = tf.nn.softmax(tf.matmul(x,w_best) + b_best)
 cross_entropy = -tf.reduce_mean(y * tf.log(model))
 
 # optimizer
-train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
+train_step = tf.train.GradientDescentOptimizer(0.001).minimize(cross_entropy)
 
 #loss (square error of prediction) for each sample (a vector)
 loss = tf.square(y - model)
@@ -122,9 +116,9 @@ for i in range(0,n_epochs):
     y_pred,curr_w,curr_b = sess.run([model, w_best, b_best], feed_dict = {x: x_test, y: y_test})
     # calculate and print Mean Squared Error
     MSE = np.mean(np.mean(np.square(y_pred - y_test),axis = 1),axis = 0)
+    print(MSE)
+print('Training Completed')
+print(np.transpose(curr_w))
+print(curr_b)
 accu = accuracy(y_pred, y_test)
 print(accu)
-""" print('MSE')
-print(MSE)
-print("accuracy")
-print(100 - MSE * 100) """
